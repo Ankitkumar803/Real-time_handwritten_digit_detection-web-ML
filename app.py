@@ -28,14 +28,29 @@ def signup():
 
         
         #converting gray scale to pixel of black-white
-        imgGray_np[imgGray_np >= 120] = 255
-        imgGray_np[imgGray_np < 120] = 0
+        # imgGray_np[imgGray_np >= 120] = 255
+        # imgGray_np[imgGray_np < 120] = 0
+
+        # imgGray_np[imgGray_np == 255] = 0
+        # imgGray_np[imgGray_np == 0] = 255
+        shape = imgGray_np.shape
+        imgGray_np = np.ravel(imgGray_np)
+        
+        for i in range(len(imgGray_np)):
+            if imgGray_np[i] >= 120:
+                imgGray_np[i]= 0
+            else:
+                imgGray_np[i]= 255
+
+        imgGray_np = imgGray_np.reshape(shape)
 
         img = Image.fromarray(imgGray_np)
-        img.save('my.png')
-
         imgGray_np = img.resize((28, 28))
+        imgGray_np.save('my.png')
 
+        
+
+        imgGray_np = np.array(imgGray_np)
         imgGray_np = np.ravel(imgGray_np)
         np.savetxt('imgGray_np.csv', imgGray_np, delimiter=',')
 
